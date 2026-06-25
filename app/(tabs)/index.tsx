@@ -33,6 +33,7 @@ const [notes, setNotes] = useState("");
 const [strategy, setStrategy] = useState("5PM ORB");
 const [exchange, setExchange] = useState("Giottus");
 const [session, setSession] = useState("London");
+const [filter, setFilter] = useState("All");
 
   const { theme } = useTheme();
   const colors = themes[theme];
@@ -145,6 +146,25 @@ const newTrade: Trade = {
         )
       : 0;
 
+      const filteredTrades = trade.filter((trade) => {
+  switch (filter) {
+    case "Wins":
+      return trade.rr > 0;
+
+    case "Losses":
+      return trade.rr <= 0;
+
+    case "Long":
+      return trade.direction === "Long";
+
+    case "Short":
+      return trade.direction === "Short";
+
+    default:
+      return true;
+  }
+});
+
   return (
     <ScrollView
       style={{
@@ -230,6 +250,59 @@ const newTrade: Trade = {
           Worst Trade: {worstTrade}R
         </Text>
       </View>
+
+     {/* FILTER BAR */}
+
+<Text
+  style={{
+    color: colors.accent,
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 12,
+  }}
+>
+  Filters
+</Text>
+
+<View
+  style={{
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+    marginBottom: 20,
+  }}
+>
+  {["📊 All", "🟢 Wins", "🔴 Losses", "📈 Long", "📉 Short"].map((item) => (
+    <TouchableOpacity
+      key={item}
+      onPress={() => setFilter(item.replace(/^[^ ]+ /, ""))}
+      style={{
+        backgroundColor:
+          filter === item.replace(/^[^ ]+ /, "")
+            ? colors.accent
+            : colors.card,
+        borderWidth: 1,
+        borderColor: colors.accent,
+        borderRadius: 25,
+        paddingHorizontal: 18,
+        paddingVertical: 10,
+      }}
+    >
+      <Text
+        style={{
+          color:
+            filter === item.replace(/^[^ ]+ /, "")
+              ? "#000"
+              : colors.text,
+          fontWeight: "bold",
+          fontSize: 15,
+        }}
+      >
+        {item}
+      </Text>
+    </TouchableOpacity>
+  ))}
+</View>
 
       {/* INPUTS */}
 
@@ -444,7 +517,7 @@ const newTrade: Trade = {
 
       {/* TRADE CARDS */}
 
-      {trade.map((trade, index) => (
+      {filteredTrades.map((trade, index) => (
         <View
           key={index}
           style={{
