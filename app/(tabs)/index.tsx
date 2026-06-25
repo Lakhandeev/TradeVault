@@ -34,6 +34,7 @@ const [strategy, setStrategy] = useState("5PM ORB");
 const [exchange, setExchange] = useState("Giottus");
 const [session, setSession] = useState("London");
 const [filter, setFilter] = useState("All");
+const [search, setSearch] = useState("");
 
   const { theme } = useTheme();
   const colors = themes[theme];
@@ -147,23 +148,39 @@ const newTrade: Trade = {
       : 0;
 
       const filteredTrades = trade.filter((trade) => {
+  const matchesSearch =
+    trade.pair
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+  let matchesFilter = true;
+
   switch (filter) {
     case "Wins":
-      return trade.rr > 0;
+      matchesFilter = trade.rr > 0;
+      break;
 
     case "Losses":
-      return trade.rr <= 0;
+      matchesFilter = trade.rr <= 0;
+      break;
 
     case "Long":
-      return trade.direction === "Long";
+      matchesFilter =
+        trade.direction === "Long";
+      break;
 
     case "Short":
-      return trade.direction === "Short";
+      matchesFilter =
+        trade.direction === "Short";
+      break;
 
     default:
-      return true;
+      matchesFilter = true;
   }
+
+  return matchesSearch && matchesFilter;
 });
+
 
   return (
     <ScrollView
@@ -260,7 +277,21 @@ const newTrade: Trade = {
     fontWeight: "bold",
     marginBottom: 12,
   }}
->
+><TextInput
+  placeholder="🔍 Search Pair..."
+  placeholderTextColor="#888"
+  value={search}
+  onChangeText={setSearch}
+  style={{
+    backgroundColor: colors.card,
+    color: colors.text,
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: colors.accent,
+  }}
+/>
   Filters
 </Text>
 
