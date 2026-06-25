@@ -16,6 +16,7 @@ type Trade = {
   direction: string;
   rr: number;
   strategy: string;
+  exchange: string;
   date: string;
   notes: string;
 };
@@ -29,6 +30,7 @@ const [notes, setNotes] = useState("");
   const [trade, setTrades] = useState<Trade[]>([]);
 
 const [strategy, setStrategy] = useState("5PM ORB");
+const [exchange, setExchange] = useState("Giottus");
 
   const { theme } = useTheme();
   const colors = themes[theme];
@@ -75,11 +77,12 @@ const [strategy, setStrategy] = useState("5PM ORB");
       return;
     }
 
- const newTrade: Trade = {
+const newTrade: Trade = {
   pair,
   direction,
   rr: parseFloat(rr),
   strategy,
+  exchange,
   date: new Date().toLocaleString(),
   notes,
 };
@@ -91,6 +94,7 @@ const [strategy, setStrategy] = useState("5PM ORB");
     setDirection("");
     setNotes("");
     setStrategy("5PM ORB");
+    setExchange("Giottus");
   };
 
   const deleteTrade = (indexToDelete: number) => {
@@ -342,6 +346,35 @@ const [strategy, setStrategy] = useState("5PM ORB");
     <Picker.Item label="Custom" value="Custom" />
   </Picker>
 </View>
+
+<View
+  style={{
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: colors.accent,
+  }}
+>
+  <Picker
+    selectedValue={exchange}
+    onValueChange={(itemValue) => setExchange(itemValue)}
+    dropdownIconColor={colors.accent}
+    style={{
+      color: colors.text,
+    }}
+  >
+    <Picker.Item label="Giottus" value="Giottus" />
+    <Picker.Item label="Binance" value="Binance" />
+    <Picker.Item label="Bybit" value="Bybit" />
+    <Picker.Item label="OKX" value="OKX" />
+    <Picker.Item
+      label="Paper Trading"
+      value="Paper Trading"
+    />
+  </Picker>
+</View>
+
 <TextInput
   placeholder="Trade Notes"
   placeholderTextColor="#888"
@@ -431,6 +464,15 @@ const [strategy, setStrategy] = useState("5PM ORB");
   }}
 >
   🎯 {trade.strategy}
+<Text
+  style={{
+    color: colors.secondary,
+    marginTop: 4,
+  }}
+>
+  🏦 {trade.exchange}
+</Text>
+
 </Text>
               </Text>
 
