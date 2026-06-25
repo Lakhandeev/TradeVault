@@ -35,6 +35,7 @@ const [exchange, setExchange] = useState("Giottus");
 const [session, setSession] = useState("London");
 const [filter, setFilter] = useState("All");
 const [search, setSearch] = useState("");
+const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const { theme } = useTheme();
   const colors = themes[theme];
@@ -92,7 +93,17 @@ const newTrade: Trade = {
   notes,
 };
 
-    setTrades([newTrade, ...trade]);
+    if (editingIndex !== null) {
+  const updatedTrades = [...trade];
+
+  updatedTrades[editingIndex] = newTrade;
+
+  setTrades(updatedTrades);
+
+  setEditingIndex(null);
+} else {
+  setTrades([newTrade, ...trade]);
+}
 
     setPair("");
     setRR("");
@@ -101,6 +112,7 @@ const newTrade: Trade = {
     setStrategy("5PM ORB");
     setExchange("Giottus");
     setSession("London");
+    setEditingIndex(null);
   };
 
   const deleteTrade = (indexToDelete: number) => {
@@ -110,6 +122,20 @@ const newTrade: Trade = {
       )
     );
   };
+
+  const editTrade = (index: number) => {
+  const selectedTrade = trade[index];
+
+  setPair(selectedTrade.pair);
+  setDirection(selectedTrade.direction);
+  setRR(selectedTrade.rr.toString());
+  setStrategy(selectedTrade.strategy);
+  setExchange(selectedTrade.exchange);
+  setSession(selectedTrade.session);
+  setNotes(selectedTrade.notes);
+
+  setEditingIndex(index);
+};
 
   const totalTrades = trade.length;
 
@@ -180,7 +206,7 @@ const newTrade: Trade = {
 
   return matchesSearch && matchesFilter;
 });
-  
+
 
   return (
     <ScrollView
@@ -542,7 +568,9 @@ const newTrade: Trade = {
             fontSize: 16,
           }}
         >
-          Add Trade
+          {editingIndex !== null
+  ? "💾 Save Changes"
+  : "➕ Add Trade"}
         </Text>
       </TouchableOpacity>
 
@@ -675,7 +703,37 @@ const newTrade: Trade = {
                   fontSize: 20,
                 }}
               >
-                ❌
+                <View
+  style={{
+    alignItems: "center",
+    gap: 10,
+  }}
+>
+  <TouchableOpacity
+    onPress={() => editTrade(index)}
+  >
+    <Text
+      style={{
+        fontSize: 22,
+      }}
+    >
+      ✏️
+    </Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    onPress={() => deleteTrade(index)}
+  >
+    <Text
+      style={{
+        color: colors.loss,
+        fontSize: 22,
+      }}
+    >
+      ❌
+    </Text>
+  </TouchableOpacity>
+</View>
               </Text>
             </TouchableOpacity>
           </View>
