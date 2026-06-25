@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
 import {
+  Alert,
   ScrollView,
   Text,
   TextInput,
@@ -116,13 +117,28 @@ const newTrade: Trade = {
   };
 
   const deleteTrade = (indexToDelete: number) => {
-    setTrades(
-      trade.filter(
-        (_, index) => index !== indexToDelete
-      )
-    );
-  };
-
+  Alert.alert(
+    "Delete Trade",
+    "Are you sure you want to delete this trade?",
+    [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => {
+          setTrades(
+            trade.filter(
+              (_, index) => index !== indexToDelete
+            )
+          );
+        },
+      },
+    ]
+  );
+};
   const editTrade = (index: number) => {
   const selectedTrade = trade[index];
 
