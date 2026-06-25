@@ -17,6 +17,7 @@ type Trade = {
   rr: number;
   strategy: string;
   exchange: string;
+  session: string;
   date: string;
   notes: string;
 };
@@ -31,6 +32,7 @@ const [notes, setNotes] = useState("");
 
 const [strategy, setStrategy] = useState("5PM ORB");
 const [exchange, setExchange] = useState("Giottus");
+const [session, setSession] = useState("London");
 
   const { theme } = useTheme();
   const colors = themes[theme];
@@ -83,6 +85,7 @@ const newTrade: Trade = {
   rr: parseFloat(rr),
   strategy,
   exchange,
+  session,
   date: new Date().toLocaleString(),
   notes,
 };
@@ -95,6 +98,7 @@ const newTrade: Trade = {
     setNotes("");
     setStrategy("5PM ORB");
     setExchange("Giottus");
+    setSession("London");
   };
 
   const deleteTrade = (indexToDelete: number) => {
@@ -375,6 +379,30 @@ const newTrade: Trade = {
   </Picker>
 </View>
 
+<View
+  style={{
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: colors.accent,
+  }}
+>
+  <Picker
+    selectedValue={session}
+    onValueChange={(itemValue) => setSession(itemValue)}
+    dropdownIconColor={colors.accent}
+    style={{
+      color: colors.text,
+    }}
+  >
+    <Picker.Item label="London" value="London" />
+    <Picker.Item label="New York" value="New York" />
+    <Picker.Item label="Asia" value="Asia" />
+    <Picker.Item label="Sydney" value="Sydney" />
+  </Picker>
+</View>
+
 <TextInput
   placeholder="Trade Notes"
   placeholderTextColor="#888"
@@ -471,6 +499,14 @@ const newTrade: Trade = {
   }}
 >
   🏦 {trade.exchange}
+  <Text
+  style={{
+    color: colors.secondary,
+    marginTop: 4,
+  }}
+>
+  🌍 {trade.session}
+</Text>
 </Text>
 
 </Text>
