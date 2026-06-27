@@ -542,167 +542,160 @@ const newTrade: Trade = {
       {/* TRADE CARDS */}
 
       {filteredTrades.map((trade, index) => (
-        <View
-          key={index}
-          style={{
-            backgroundColor: colors.card,
-            borderRadius: 16,
-            padding: 18,
-            marginBottom: 12,
-            borderWidth: 1,
-            borderColor: colors.accent,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <View>
-              <Text
-                style={{
-                  color: colors.accent,
-                  fontSize: 18,
-                  fontWeight: "bold",
-                }}
-              >
-                {trade.pair}
-              </Text>
-
-              <Text
-                style={{
-                  color:
-                    trade.direction === "Long"
-                      ? colors.profit
-                      : colors.loss,
-                  marginTop: 6,
-                }}
-              >
-                {trade.direction}
-
-                <Text
+       <View
+  key={index}
   style={{
-    color: colors.accent,
-    marginTop: 4,
-    fontWeight: "600",
+    backgroundColor: colors.card,
+    borderRadius: 16,
+    padding: 18,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.accent,
   }}
 >
-  🎯 {trade.strategy}
-<Text
-  style={{
-    color: colors.secondary,
-    marginTop: 4,
-  }}
->
-  🏦 {trade.exchange}
+  {/* Header */}
+
+  <View
+    style={{
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+    }}
+  >
+    <View style={{ flex: 1 }}>
+      <Text
+        style={{
+          color: colors.accent,
+          fontSize: 22,
+          fontWeight: "bold",
+        }}
+      >
+        {trade.pair}
+      </Text>
+
+      <Text
+        style={{
+          color:
+            trade.direction === "Long"
+              ? colors.profit
+              : colors.loss,
+          marginTop: 6,
+          fontWeight: "bold",
+        }}
+      >
+        {trade.direction === "Long"
+          ? "📈 Long"
+          : "📉 Short"}
+      </Text>
+    </View>
+
+    <Text
+      style={{
+        color:
+          trade.rr >= 0
+            ? colors.profit
+            : colors.loss,
+        fontSize: 24,
+        fontWeight: "bold",
+      }}
+    >
+      {trade.rr}R
+    </Text>
+  </View>
+
+  {/* Divider */}
+
+  <View
+    style={{
+      height: 1,
+      backgroundColor: colors.accent,
+      opacity: 0.2,
+      marginVertical: 14,
+    }}
+  />
+
   <Text
-  style={{
-    color: colors.secondary,
-    marginTop: 4,
-  }}
->
-  🌍 {trade.session}
-</Text>
-</Text>
-
-</Text>
-              </Text>
-
-              <Text
-                style={{
-                  color:
-                    trade.rr >= 0
-                      ? colors.profit
-                      : colors.loss,
-                  marginTop: 6,
-                  fontSize: 18,
-                  fontWeight: "bold",
-                }}
-              >
-                {trade.rr}R
-                <Text
-  style={{
-    color: colors.secondary,
-    marginTop: 8,
-    fontSize: 13,
-  }}
->
-  📅 {trade.date}
-</Text>
-
-<Text
-  style={{
-    color: colors.text,
-    marginTop: 6,
-  }}
->
-  📝 {trade.notes}
-</Text>
-                <Text
-  style={{
-    color: colors.text,
-    marginTop: 8,
-  }}
->
-  📅 {trade.date}
-</Text>
-
-<Text
-  style={{
-    color: colors.secondary,
-    marginTop: 4,
-  }}
->
-  📝 {trade.notes}
-</Text>
-              </Text>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => deleteTrade(index)}
-            >
-              <Text
-                style={{
-                  color: colors.loss,
-                  fontSize: 20,
-                }}
-              >
-                <View
-  style={{
-    alignItems: "center",
-    gap: 10,
-  }}
->
-  <TouchableOpacity
-    onPress={() => editTrade(index)}
+    style={{
+      color: colors.text,
+      marginBottom: 8,
+    }}
   >
+    🎯 Strategy: {trade.strategy}
+  </Text>
+
+  <Text
+    style={{
+      color: colors.text,
+      marginBottom: 8,
+    }}
+  >
+    🏦 Exchange: {trade.exchange}
+  </Text>
+
+  <Text
+    style={{
+      color: colors.text,
+      marginBottom: 8,
+    }}
+  >
+    🌍 Session: {trade.session}
+  </Text>
+
+  <Text
+    style={{
+      color: colors.secondary,
+      marginBottom: 8,
+    }}
+  >
+    🕒 {trade.date}
+  </Text>
+
+  {trade.notes.trim() !== "" && (
     <Text
       style={{
-        fontSize: 22,
+        color: colors.text,
+        fontStyle: "italic",
+        marginBottom: 14,
       }}
     >
-      ✏️
+      📝 {trade.notes}
     </Text>
-  </TouchableOpacity>
+  )}
 
-  <TouchableOpacity
-    onPress={() => deleteTrade(index)}
+  <View
+    style={{
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      gap: 18,
+    }}
   >
-    <Text
-      style={{
-        color: colors.loss,
-        fontSize: 22,
-      }}
+    <TouchableOpacity
+      onPress={() => editTrade(index)}
     >
-      ❌
-    </Text>
-  </TouchableOpacity>
+      <Text
+        style={{
+          color: colors.accent,
+          fontWeight: "bold",
+        }}
+      >
+        ✏️ Edit
+      </Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+      onPress={() => deleteTrade(index)}
+    >
+      <Text
+        style={{
+          color: colors.loss,
+          fontWeight: "bold",
+        }}
+      >
+        🗑 Delete
+      </Text>
+    </TouchableOpacity>
+  </View>
 </View>
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       ))}
     </ScrollView>
   );
