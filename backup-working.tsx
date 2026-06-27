@@ -251,64 +251,186 @@ const newTrade: Trade = {
       {/* DASHBOARD */}
 
       <View
+  style={{
+    backgroundColor: colors.card,
+    borderRadius: 16,
+    padding: 18,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: colors.accent,
+  }}
+>
+
+  <Text
+    style={{
+      color: colors.accent,
+      fontSize: 22,
+      fontWeight: "bold",
+      marginBottom: 15,
+    }}
+  >
+    Dashboard
+  </Text>
+
+  {/* First Row */}
+
+  <View
+    style={{
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginBottom: 12,
+    }}
+  >
+
+    {/* Trades */}
+
+    <View
+      style={{
+        backgroundColor: colors.background,
+        width: "48%",
+        padding: 15,
+        borderRadius: 12,
+      }}
+    >
+
+      <Text
         style={{
-          backgroundColor: colors.card,
-          borderRadius: 16,
-          padding: 18,
-          marginBottom: 20,
-          borderWidth: 1,
-          borderColor: colors.accent,
+          color: colors.secondary,
+          fontSize: 13,
         }}
       >
-        <Text
-          style={{
-            color: colors.accent,
-            fontSize: 22,
-            fontWeight: "bold",
-            marginBottom: 12,
-          }}
-        >
-          Dashboard
-        </Text>
+        📊 Total Trades
+      </Text>
 
-        <Text style={{ color: colors.text }}>
-          Total Trades: {totalTrades}
-        </Text>
+      <Text
+        style={{
+          color: colors.text,
+          fontSize: 24,
+          fontWeight: "bold",
+          marginTop: 5,
+        }}
+      >
+        {totalTrades}
+      </Text>
 
-        <Text style={{ color: colors.profit }}>
-          Wins: {wins}
-        </Text>
+    </View>
 
-        <Text style={{ color: colors.loss }}>
-          Losses: {losses}
-        </Text>
+    {/* Win Rate */}
 
-        <Text style={{ color: colors.text }}>
-          Win Rate: {winRate}%
-        </Text>
+    <View
+      style={{
+        backgroundColor: colors.background,
+        width: "48%",
+        padding: 15,
+        borderRadius: 12,
+      }}
+    >
 
-        <Text
-          style={{
-            color:
-              Number(totalRR) >= 0
-                ? colors.profit
-                : colors.loss,
-            marginTop: 10,
-            fontWeight: "bold",
-          }}
-        >
-          Total RR: {totalRR}R
-        </Text>
-        <Text
-          style={{ color: colors.profit }}
-        >
-          Best Trade: {bestTrade}R
-        </Text>
+      <Text
+        style={{
+          color: colors.secondary,
+          fontSize: 13,
+        }}
+      >
+        🎯 Win Rate
+      </Text>
 
-        <Text style={{ color: colors.loss }}>
-          Worst Trade: {worstTrade}R
-        </Text>
-      </View>
+      <Text
+        style={{
+          color: colors.text,
+          fontSize: 24,
+          fontWeight: "bold",
+          marginTop: 5,
+        }}
+      >
+        {winRate}%
+      </Text>
+
+    </View>
+
+  </View>
+
+  {/* Second Row */}
+
+  <View
+    style={{
+      flexDirection: "row",
+      justifyContent: "space-between",
+    }}
+  >
+
+    {/* RR */}
+
+    <View
+      style={{
+        backgroundColor: colors.background,
+        width: "48%",
+        padding: 15,
+        borderRadius: 12,
+      }}
+    >
+
+      <Text
+        style={{
+          color: colors.secondary,
+          fontSize: 13,
+        }}
+      >
+        📈 Total RR
+      </Text>
+
+      <Text
+        style={{
+          color:
+            Number(totalRR) >= 0
+              ? colors.profit
+              : colors.loss,
+          fontSize: 24,
+          fontWeight: "bold",
+          marginTop: 5,
+        }}
+      >
+        {totalRR}R
+      </Text>
+
+    </View>
+
+    {/* Best */}
+
+    <View
+      style={{
+        backgroundColor: colors.background,
+        width: "48%",
+        padding: 15,
+        borderRadius: 12,
+      }}
+    >
+
+      <Text
+        style={{
+          color: colors.secondary,
+          fontSize: 13,
+        }}
+      >
+        🏆 Best Trade
+      </Text>
+
+      <Text
+        style={{
+          color: colors.profit,
+          fontSize: 24,
+          fontWeight: "bold",
+          marginTop: 5,
+        }}
+      >
+        {bestTrade}R
+      </Text>
+
+    </View>
+
+  </View>
+
+</View>
 
      {/* FILTER BAR */}
 
